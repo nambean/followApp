@@ -101,7 +101,7 @@ exports.renderManagerPage = function(req, res) {
         victim: req.victim,
         moment: moment
     });
-    console.log(req.victim[1].sdt);
+    console.log(req.victim);
 }
 
 //------------------------------------logout functionality----------------------------------------------
@@ -131,7 +131,7 @@ exports.renderProfileUser = function(req, res) {
         users: req.user,
         profile: req.profileUser
     });
-    console.log(req.victim[1].sdt);
+    //console.log(req.victim);
 }
 
 //---------------------------------edit users details after login----------------------------------

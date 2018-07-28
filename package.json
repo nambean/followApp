@@ -19,6 +19,7 @@
     "express-session": "^1.15.6",
     "moment": "^2.22.2",
     "mysql": "^2.16.0",
-    "req-flash": "0.0.3"
+    "req-flash": "0.0.3",
+    "socket.io": "^2.1.1"
   }
 }
