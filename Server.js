@@ -1,57 +1,19 @@
-var app     =     require("express")();
-var mysql   =     require("mysql");
-var http    =     require('http').Server(app);
-var io      =     require("socket.io")(http);
+var express = require('express');
+var cors = require('cors');
+var bodyParser = require("body-parser");
+var app = express();
+var port = process.env.PORT || 3000;
 
-/* Creating POOL MySQL connection.*/
+app.use(bodyParser.json());
+app.use(cors());
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
-var pool    =    mysql.createPool({
-      connectionLimit   :   100,
-      host              :   'localhost',
-      user              :   'root',
-      password          :   '',
-      database          :   'followApp',
-      debug             :   false
-});
+var Users = require('./Routes/Users');
 
-app.get("/",function(req,res){
-    res.sendFile(__dirname + '/index.html');
-});
+app.use('/users',Users);
 
-/*  This is auto initiated event when Client connects to Your Machien.  */
-
-io.on('connection',function(socket){  
-    console.log("A user is connected");
-    socket.on('status added',function(status){
-      add_status(status,function(res){
-        if(res){
-            io.emit('refresh feed',status);
-        } else {
-            io.emit('error');
-        }
-      });
-    });
-});
-
-var add_status = function (status,callback) {
-    pool.getConnection(function(err,connection){
-        if (err) {
-          callback(false);
-          return;
-        }
-    connection.query("INSERT INTO `status` (`s_text`) VALUES ('"+status+"')",function(err,rows){
-            connection.release();
-            if(!err) {
-              callback(true);
-            }
-        });
-     connection.on('error', function(err) {
-              callback(false);
-              return;
-        });
-    });
-}
-
-http.listen(3000,function(){
-    console.log("Listening on 3000");
+app.listen(port,function(){
+    console.log("Server is running on port: "+port);
 });

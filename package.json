@@ -1,9 +1,24 @@
 {
-  "name": "facebook-chat-socket",
-  "version": "0.0.1",
+  "name": "nodejs-mysql-authentication",
+  "version": "1.0.0",
+  "description": "nodejs login with jwt token",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "jwt",
+    "passport",
+    "express"
+  ],
+  "author": "Devesh Vyas",
+  "license": "ISC",
   "dependencies": {
-    "express": "~4.11.2",
-    "socket.io": "~1.3.3",
-    "mysql": "~2.5.5"
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
+    "express": "^4.15.4",
+    "jsonwebtoken": "^7.4.2",
+    "mysql": "^2.14.1"
   }
 }
