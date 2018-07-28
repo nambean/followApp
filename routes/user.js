@@ -1,4 +1,4 @@
-
+var moment = require('moment');
 //---------------------------------------------signup page call------------------------------------------------------
 exports.signup = function(req, res){
    message = '';
@@ -72,22 +72,38 @@ exports.header = function(req, res, next){
 };
 
 //-----------------------------------------------dashboard page functionality----------------------------------------------
-           
-exports.dashboard = function(req, res, next){
-           
-   var user =  req.session.user,
-   userId = req.session.userId;
-   console.log('ddd='+userId);
-   if(userId == null){
-      res.redirect("/login");
-      return;
-   }
+
+exports.findUser = function(req, res, next) {
+    var user =  req.session.user,
+        userId = req.session.userId;
+    if(userId == null){
+        res.redirect("/login");
+        return;
+    }
     var sql="SELECT * FROM `users` WHERE `id`='"+userId+"'";
     db.query(sql, function(err, result){
-        res.render('dashboard.ejs',{data:result});
+        req.user = result;
+        return next();
     });
+}
 
-};
+exports.findVictims = function(req, res, next) {
+    var sqlVictim="SELECT * FROM `victim`";
+    db.query(sqlVictim, function(err, result){
+        req.victim = result;
+        return next();
+    });
+}
+
+exports.renderManagerPage = function(req, res) {
+    res.render('dashboard.ejs', {
+        users: req.user,
+        victim: req.victim,
+        moment: moment
+    });
+    console.log(req.victim[1].sdt);
+}
+
 //------------------------------------logout functionality----------------------------------------------
 exports.logout=function(req,res){
    req.session.destroy(function(err) {
@@ -95,19 +111,29 @@ exports.logout=function(req,res){
    })
 };
 //--------------------------------render user details after login--------------------------------
-exports.profile = function(req, res){
+
+exports.profile = function(req, res, next){
 
    var userId = req.session.userId;
    if(userId == null){
       res.redirect("/login");
       return;
    }
-
    var sql="SELECT * FROM `users` WHERE `id`='"+userId+"'";          
-   db.query(sql, function(err, result){  
-      res.render('profile.ejs',{data:result});
+   db.query(sql, function(err, result){
+       req.profileUser = result;
+       return next();
    });
 };
+
+exports.renderProfileUser = function(req, res) {
+    res.render('profile.ejs', {
+        users: req.user,
+        profile: req.profileUser
+    });
+    console.log(req.victim[1].sdt);
+}
+
 //---------------------------------edit users details after login----------------------------------
 exports.editprofile=function(req,res){
    var userId = req.session.userId;

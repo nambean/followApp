@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sample Site</title>
+    <title>Follow App</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -11,36 +11,40 @@
 <div id="wrapper" class="animate">
     <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
         <span class="navbar-toggler-icon leftmenutrigger"></span>
-        <a class="navbar-brand" href="#">LOGO</a>
+        <a class="navbar-brand" href="/home/dashboard">FollowApp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav animate side-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="http://via.placeholder.com/160x160" class="rounded-circle" alt="User Image">
+                        </div>
+                        <div class="pull-left info">
+                            <p><%=users[0].first_name%> <%=users[0].last_name%></p>
+                            <a><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home/dashboard">Quản lý Thuê bao
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Side Menu Items</a>
+                    <a class="nav-link" href="#">Cấu hình</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
+
             </ul>
             <ul class="navbar-nav ml-md-auto d-md-flex">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Top Menu Items</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                <li class="nav-item" data-toggle="dropdown">
+                    <div class="dropdown">
+                        <a href="/home/profile" class="btn btn-primary active" role="button" aria-pressed="true"><%=users[0].first_name%> <%=users[0].last_name%></a>
+                    </div>
                 </li>
             </ul>
         </div>
