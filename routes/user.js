@@ -152,7 +152,7 @@ exports.editprofile=function(req,res){
 //---------------------------------edit delete victim details after login----------------------------------
 exports.delete_victim = function(req,res){
     var id = req.params.id;
-    console.log(id);
+    //console.log(id);
     var sql="DELETE FROM `victim` WHERE `id`='"+id+"'";
     db.query(sql, function(err, results){
         message = "Succesfully!";

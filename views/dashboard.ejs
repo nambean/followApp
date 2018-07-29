@@ -65,6 +65,12 @@
         </div>
     </div>
 
+    <ul id="messages"></ul>
+    <form action="">
+        <input id="user" value="<%=users[0].first_name%> <%=users[0].last_name%>" />
+        <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
 </div>
 </div>
 
@@ -74,6 +80,33 @@
             "paging": true,
             "ordering": true,
             "info": false
+        });
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+
+<script>
+    $(function () {
+        var socket = io.connect('http://localhost:8080');
+        socket.on('connect', function(data) {
+            socket.emit('user connect', $('#user').val());
+        });
+
+        socket.on('disconnect', function(user_disconnect) {
+            socket.emit('user disconnect', $('#user').val());
+        });
+
+
+        $('form').submit(function(){
+            socket.emit('chat message', $('#m').val(),$('#user').val());
+            $('#m').val('');
+            return false;
+        });
+        socket.on('chat message', function(msg,people){
+
+            $('#messages').append($('<li>').text(msg));
+            $('#user').val().text(people);
         });
     });
 </script>
