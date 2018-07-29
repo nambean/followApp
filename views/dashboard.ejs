@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Phần mềm quản lý SMS, Call Recorder, Location Android</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Quản lý tin nhắn SMS, Call thuê bao sử dụng Android</h6>
-                    <p class="card-text">Develop by NamBean</p>
+                    <p class="card-text">Contact: NamBean</p>
                 </div>
             </div>
         </div>
@@ -21,7 +21,14 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Danh sách thuê bao</h5>
-                    <table class="table">
+                    <% if (message.length > 0) { %>
+                    <div class="alert alert-success col-sm-12"><%= message %></div>
+                    <% } %>
+                    <div id="signupalert" style="display:none" class="alert alert-danger">
+                        <p>Error:</p>
+                        <span></span>
+                    </div>
+                    <table id="victim-table-list" class="table table-striped">
                         <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -30,13 +37,15 @@
                             <th scope="col">Ngày tạo</th>
                             <th scope="col">Ngày cập nhật</th>
                             <th scope="col">Quản lý</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
                         <%
                         for(var i=0; i < victim.length ; i++) { %>
                         <tr>
-                            <th style=" width: 6%; " scope="row"><%= victim[i].id %></th>
+                            <th style=" width: 6%; " scope="row"><%= i+1 %></th>
                             <td style=" width: 6%; text-align: center;">
                                 <%if (victim[i].status==0) {%>  <i class="fa fa-circle text-danger"></i>  <%}%>
                                 <%if (victim[i].status==1) {%>  <i class="fa fa-circle text-success"></i>  <%}%>
@@ -44,7 +53,9 @@
                             <td><%= victim[i].sdt %></td>
                             <td><%= moment(victim[i].created_date).format( 'DD-MM-YYYY hh:mm:ss ')  %></td>
                             <td><%= moment(victim[i].update_date).format( 'DD-MM-YYYY hh:mm:ss ')  %></td>
-                            <td><a class="btn btn-success">SMS / Call</a></td>
+                            <td><a class="btn btn-success btn-a-white">SMS / Call</a></td>
+                            <td><a class="btn btn-info btn-a-white">Định vị</a></td>
+                            <td><a class="btn btn-danger btn-a-white" href="../dashboard/delete/<%= victim[i].id %>" onclick="return confirm('Xóa theo dõi SĐT này?');">Xóa thuê bao</a></td>
                         </tr>
                         <% } %>
                         </tbody>
@@ -56,4 +67,14 @@
 
 </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#victim-table-list').DataTable({
+            "paging": true,
+            "ordering": true,
+            "info": false
+        });
+    });
+</script>
 <%- include footer %>

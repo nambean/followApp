@@ -32,8 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
               secret: 'keyboard cat',
               resave: false,
-              saveUninitialized: true,
-              cookie: { maxAge: 60000 }
+              saveUninitialized: true
+              //cookie: { maxAge: 6000000 }
             }))
  
 // development only
@@ -43,8 +43,11 @@ app.get('/signup', user.signup);//call for signup page
 app.post('/signup', user.signup);//call for signup post 
 app.get('/login', routes.index);//call for login page
 app.post('/login', user.login);//call for login post
-app.get('/home/dashboard', user.findUser, user.findVictims,  user.renderManagerPage);//call for dashboard page after login
+app.get('/home/header', user.findUser, user.findVictims,  user.renderManagerPage, user.delete_victim);//call for dashboard page after login
+app.get('/home/dashboard', user.findUser, user.findVictims,  user.renderManagerPage, user.delete_victim);//call for dashboard page after login
 app.get('/home/logout', user.logout);//call for logout
 app.get('/home/profile',user.findUser,  user.renderProfileUser);//to render users profile
+// Add, Edit, Delete Victim
+app.get('/dashboard/delete/:id', user.delete_victim);
 //Middleware
 app.listen(8080)

@@ -96,12 +96,13 @@ exports.findVictims = function(req, res, next) {
 }
 
 exports.renderManagerPage = function(req, res) {
+    message = '';
     res.render('dashboard.ejs', {
         users: req.user,
         victim: req.victim,
         moment: moment
     });
-    console.log(req.victim);
+    //console.log(req.victim);
 }
 
 //------------------------------------logout functionality----------------------------------------------
@@ -146,4 +147,15 @@ exports.editprofile=function(req,res){
    db.query(sql, function(err, results){
       res.render('edit_profile.ejs',{data:results});
    });
+};
+
+//---------------------------------edit delete victim details after login----------------------------------
+exports.delete_victim = function(req,res){
+    var id = req.params.id;
+    console.log(id);
+    var sql="DELETE FROM `victim` WHERE `id`='"+id+"'";
+    db.query(sql, function(err, results){
+        message = "Succesfully!";
+        res.redirect('/home/dashboard');
+    });
 };

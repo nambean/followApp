@@ -53,3 +53,11 @@ body{background:#f9f9f9;}
     float: left;
 }
 
+.btn-a-white{
+    color: #ffffff!important;
+}
+
+.dataTables_paginate a{
+    margin: 5px!important;
+    cursor: pointer;
+}

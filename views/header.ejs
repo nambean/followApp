@@ -3,9 +3,13 @@
     <meta charset="UTF-8">
     <title>Follow App</title>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
+    <link href="/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+
 </head>
 <body>
 <div id="wrapper" class="animate">
@@ -44,6 +48,7 @@
                 <li class="nav-item" data-toggle="dropdown">
                     <div class="dropdown">
                         <a href="/home/profile" class="btn btn-primary active" role="button" aria-pressed="true"><%=users[0].first_name%> <%=users[0].last_name%></a>
+                        <a href="/home/logout" class="btn btn-danger active" role="button" aria-pressed="true">Thoát</a>
                     </div>
                 </li>
             </ul>
