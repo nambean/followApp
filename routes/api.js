@@ -1,6 +1,7 @@
 /*
 * GET home page.
 */
+var mkdirp = require('mkdirp');
 var moment = require('moment');
 
 exports.index = function(req, res){
@@ -14,30 +15,37 @@ exports.apiApp = function(req, res){
 
     if(req.method == "POST"){
         var post  = req.body;
-        var sdt= post.sdt;
+        var sdt = post.sdt;
         var created_date= moment().format();
         var update_date= moment().format();
         var status= 1;
 
-        console.log(created_date);
+        console.log(post);
 
-        var sqlCheckPhone="SELECT id FROM `victim` WHERE `sdt`='"+ sdt +"'";
+        var dir = 'public/phone/'+sdt;
+        mkdirp(dir, function (err) {
+            if (err) console.error(err)
+            console.log('Directory Created : ' + dir);
+        });
+
+
+
+        var sqlCheckPhone="SELECT id, phone FROM `victim` WHERE `phone`='"+ sdt +"'";
         db.query(sqlCheckPhone, function(err, results){
-
             if(err){
                 res.send(JSON.stringify({"status": 500, "error": err, "response": null}));
                 //If there is error, we send the error in the error section with 500 status
             }else{
                 if(results.length > 0){
-                    var sqlUpdate = "UPDATE `victim` SET `update_date` = '"+ update_date +"', `status` = '" + status + "' WHERE `sdt`='"+ sdt +"'";
+                    var sqlUpdate = "UPDATE `victim` SET `update_date` = '"+ update_date +"', `status` = '" + status + "' WHERE `phone`='"+ sdt +"'";
                     var queryUpdate = db.query(sqlUpdate, function(err, result) {
-                        console.log("Succesfully! Your account has been update." + sdt);
+                        console.log("Succesfully! Your account has been update : " + sdt);
                     });
                     res.send(JSON.stringify({"status": 200, "error": null, "response": results, "type": "Update"}));
                 }else{
-                    var sqlCreated = "INSERT INTO `victim`(`sdt`,`created_date`,`update_date`,`status`) VALUES ('" + sdt + "','" + created_date + "','" + update_date + "','" + status + "')";
+                    var sqlCreated = "INSERT INTO `victim`(`phone`,`created_date`,`update_date`,`status`) VALUES ('"+ sdt +"','" + created_date + "','" + update_date + "','" + status + "')";
                     var queryCreated = db.query(sqlCreated, function(err, result) {
-                        console.log("Succesfully! Your account has been created." + sdt);
+                        console.log("Succesfully! Your account has been created :" + sdt);
                     });
                     res.send(JSON.stringify({"status": 200, "error": null, "response": results, "type": "Created" }));
                 }

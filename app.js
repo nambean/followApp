@@ -31,6 +31,8 @@ var server = app.listen(3000);
 var io = require('socket.io').listen(server);
 
 // all environments
+
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -59,6 +61,8 @@ app.get('/home/profile',user.findUser,  user.renderProfileUser);//to render user
 app.get('/dashboard/delete/:id', user.delete_victim);
 
 //Socket.io
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.get('/api', api.index);//call for main index page
 app.post('/api', api.apiApp);
 
@@ -70,7 +74,7 @@ app.post('/api', function(req, res){
 io.on('connection', function(client) {
     var people = client;
     client.on('user connect', function(data) {
-
+        io.emit('an event sent to all connected clients');
         console.log(data + ' connected...');
     });
 
@@ -80,10 +84,10 @@ io.on('connection', function(client) {
 
 });
 
-io.on('connection', function(socket){
+/*io.on('connection', function(socket){
     socket.on('chat message', function(msg,people){
         console.log(people + ': ' + msg);
     });
-});
+});*/
 
 
