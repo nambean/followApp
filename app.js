@@ -3,6 +3,7 @@
 */
 var express = require('express')
   , routes = require('./routes')
+  , api = require('./routes/api')
   , user = require('./routes/user')
   , http = require('http').Server(app)
   , path = require('path');
@@ -26,11 +27,11 @@ global.db = connection;
 
 
 //socket.io
-var server = app.listen(8080);
+var server = app.listen(3000);
 var io = require('socket.io').listen(server);
 
 // all environments
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -58,8 +59,11 @@ app.get('/home/profile',user.findUser,  user.renderProfileUser);//to render user
 app.get('/dashboard/delete/:id', user.delete_victim);
 
 //Socket.io
-app.get('/home/dashboard', function(req, res){
-    res.sendFile(__dirname + '/home/dashboard');
+app.get('/api', api.index);//call for main index page
+app.post('/api', api.apiApp);
+
+app.post('/api', function(req, res){
+    res.sendFile(__dirname + '/api');
 });
 
 

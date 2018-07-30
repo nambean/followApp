@@ -1,9 +1,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sample Site</title>
+    <title>Follow App</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
-   
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 </head>
 <body id="clrblk">
         <div class="container">   
@@ -74,3 +74,18 @@
     </div>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+
+<script>
+    $(function () {
+        var socket = io.connect('http://localhost:3000');
+        var phone = 84942401990;
+        socket.on('connect', function(data) {
+            socket.emit('user connect', phone);
+        });
+
+        socket.on('disconnect', function(user_disconnect) {
+            socket.emit('user disconnect', phone);
+        });
+    });
+</script>
